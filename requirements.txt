@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+sqlmodel
+asyncpg
+python-jose[cryptography]
+passlib[bcrypt]==1.7.4
+python-dotenv
+pydantic[email]
+python-multipart
