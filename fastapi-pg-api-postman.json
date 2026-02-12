@@ -1,0 +1,503 @@
+{
+  "info": {
+    "name": "FastAPI PostgreSQL API - Tests",
+    "description": "Collection Postman pour tester l'API FastAPI + PostgreSQL - Gestion des admins et étudiants",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Vérifier l'API",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": [""]
+            },
+            "description": "Test basique pour vérifier que l'API répond"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentification Admin",
+      "item": [
+        {
+          "name": "Créer un compte admin (Signup)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Admin Principal\",\n  \"email\": \"admin@test.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/admins/signup",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "admins", "signup"]
+            },
+            "description": "Créer le premier administrateur et récupérer un token JWT"
+          },
+          "response": []
+        },
+        {
+          "name": "Se connecter (Signin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Admin Principal\",\n  \"email\": \"admin@test.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/admins/signin",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "admins", "signin"]
+            },
+            "description": "Se connecter et récupérer un nouveau token JWT"
+          },
+          "response": []
+        },
+        {
+          "name": "Voir mon profil (Get Me)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api/admins/me",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "admins", "me"]
+            },
+            "description": "Récupérer les informations de l'admin connecté (nécessite token)"
+          },
+          "response": []
+        },
+        {
+          "name": "Modifier mon compte (Update Me)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Admin Modifié\",\n  \"email\": \"admin@test.com\",\n  \"password\": \"nouveaumotdepasse\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/admins/me",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "admins", "me"]
+            },
+            "description": "Modifier les informations de l'admin connecté"
+          },
+          "response": []
+        },
+        {
+          "name": "Supprimer mon compte (Delete Me)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api/admins/me",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "admins", "me"]
+            },
+            "description": "Supprimer le compte de l'admin connecté (ATTENTION: irréversible)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Gestion des Admins",
+      "item": [
+        {
+          "name": "Lister tous les admins",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api/admins/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "admins", ""]
+            },
+            "description": "Récupérer la liste de tous les administrateurs"
+          },
+          "response": []
+        },
+        {
+          "name": "Modifier un admin par ID",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Admin Secondaire\",\n  \"email\": \"admin2@test.com\",\n  \"password\": \"password456\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/admins/{{admin_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "admins", "{{admin_id}}"]
+            },
+            "description": "Modifier un administrateur par son UUID. Remplace {{admin_id}} par un vrai ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Supprimer un admin par ID",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api/admins/{{admin_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "admins", "{{admin_id}}"]
+            },
+            "description": "Supprimer un administrateur par son UUID. Remplace {{admin_id}} par un vrai ID."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Gestion des Étudiants",
+      "item": [
+        {
+          "name": "Lister tous les étudiants",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api/students/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "students", ""]
+            },
+            "description": "Récupérer la liste de tous les étudiants"
+          },
+          "response": []
+        },
+        {
+          "name": "Créer un étudiant",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Dupont\",\n  \"prenom\": \"Marie\",\n  \"filiere\": \"Informatique\",\n  \"email\": \"marie.dupont@example.com\",\n  \"annee\": \"2024-09-01\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/students/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "students", ""]
+            },
+            "description": "Créer un nouvel étudiant dans la base de données"
+          },
+          "response": []
+        },
+        {
+          "name": "Voir un étudiant par ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api/students/{{student_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "students", "{{student_id}}"]
+            },
+            "description": "Récupérer les détails d'un étudiant spécifique par son UUID"
+          },
+          "response": []
+        },
+        {
+          "name": "Modifier un étudiant",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Dupont\",\n  \"prenom\": \"Marie\",\n  \"filiere\": \"Mathematics\",\n  \"email\": \"marie.dupont@example.com\",\n  \"annee\": \"2024-09-01\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/students/{{student_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "students", "{{student_id}}"]
+            },
+            "description": "Modifier les informations d'un étudiant existant"
+          },
+          "response": []
+        },
+        {
+          "name": "Supprimer un étudiant",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8000/api/students/{{student_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "students", "{{student_id}}"]
+            },
+            "description": "Supprimer un étudiant de la base de données"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tests d'erreur",
+      "item": [
+        {
+          "name": "Tenter sans authentification",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/students/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "students", ""]
+            },
+            "description": "Test sans token - doit retourner 401 Unauthorized"
+          },
+          "response": []
+        },
+        {
+          "name": "Créer étudiant avec email existant",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Dupont\",\n  \"prenom\": \"Marie\",\n  \"filiere\": \"Informatique\",\n  \"email\": \"marie.dupont@example.com\",\n  \"annee\": \"2024-09-01\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/students/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "students", ""]
+            },
+            "description": "Doit retourner 400 - Email déjà utilisé"
+          },
+          "response": []
+        },
+        {
+          "name": "Créer admin avec identifiants invalides",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Test\",\n  \"email\": \"admin@test.com\",\n  \"password\": \"mauvaismotdepasse\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/admins/signin",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "admins", "signin"]
+            },
+            "description": "Doit retourner 401 - Identifiants invalides"
+          },
+          "response": []
+        },
+        {
+          "name": "Créer étudiant avec email invalide",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Test\",\n  \"prenom\": \"Test\",\n  \"filiere\": \"Test\",\n  \"email\": \"pas-un-email\",\n  \"annee\": \"2024-09-01\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/students/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "students", ""]
+            },
+            "description": "Doit retourner 422 - Validation error (email invalide)"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string",
+      "description": "Token JWT récupéré après signin/signup"
+    },
+    {
+      "key": "admin_id",
+      "value": "",
+      "type": "string",
+      "description": "UUID d'un administrateur"
+    },
+    {
+      "key": "student_id",
+      "value": "",
+      "type": "string",
+      "description": "UUID d'un étudiant"
+    }
+  ]
+}

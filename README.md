@@ -22,7 +22,7 @@ Avant de commencer, assure-toi d'avoir installé :
 Ouvre un terminal (Invite de commandes sur Windows, Terminal sur Mac/Linux) et tape :
 
 ```bash
-git clone fastapi-pg-api
+git clone fastapi-
 cd fastapi-pg-api
 ```
 
